@@ -13,7 +13,7 @@
 1. Клонируйте репозиторий с помощью следующей команды:
 
 ```bash
-git clone https://github.com/your-username/simple-vue-notebook.git
+git clone https://github.com/Wolfdmitrich/simple-notepad.git
 ```
 2. Перейдите в папку проекта:
 
