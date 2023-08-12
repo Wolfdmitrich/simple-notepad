@@ -20,7 +20,7 @@ git clone https://github.com/Wolfdmitrich/simple-notepad.git
 ```bash
 cd simple-notepad
 ```
-3. Откройте файл index.html в вашем любимом веб-браузере.
+3. Откройте файл `index.html` в вашем любимом веб-браузере.
 
 ## Зависимости
 Проект не имеет зависимостей, так как использует Vue.js встроенный из CDN.
