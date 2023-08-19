@@ -4,36 +4,265 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wolfdmitrich | Profile</title>
-    <link rel="stylesheet" href="assets/css/style.css">
-    <script src="assets/js/script.js" defer></script>
-    <link rel="shortcut icon"
-        href="https://cdn.discordapp.com/avatars/1052180779435839558/d7e9558cfe536a036ca946016429569d.png"
-        type="image/x-icon">
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <title>Блокнот</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        #app {
+            background-color: #ffffff !important;
+            border-radius: 10px;
+            padding: 20px;
+            width: 50vw !important;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        textarea {
+            width: 95% !important;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+
+        .btn {
+            margin-top: 10px;
+        }
+
+        /*# sourceMappingURL=style.css.map */
+    </style>
 </head>
 
 <body>
     <div class="container">
-        <div class="wrapper">
-            <svg>
-                <text x="50%" y="50%" dy=".35em" text-anchor="middle">
-                    Wolfdmitrich
-                </text>
-            </svg>
-        </div>
-        <div class="nav animation">
-            <div class="logo">
-                <img src="https://cdn.discordapp.com/avatars/1052180779435839558/d7e9558cfe536a036ca946016429569d.png"
-                    alt="Logo">
+        <div id="app">
+            <h1>Блокнот</h1>
+            <div class="textarea">
+                <textarea v-model="value" name="text" id="text" cols="30" rows="10" class="form-control"></textarea>
+            </div>
+            <div class="buttons">
+                <div class="row align-items-start">
+                    <div class="col">
+                        <button id="save" @click="save" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#saveModal">Сохранить</button>
+                        <!-- Save Modal -->
+                        <div class="modal fade" id="saveModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Сохранение текста</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Закрыть"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ saveData }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Закрыть</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button id="load" @click="load" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#loadModal">Загрузить</button>
+                        <!-- Load Modal -->
+                        <div class="modal fade" id="loadModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Загрузка текста</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Закрыть"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ loadData }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Закрыть</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button id="clear" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#preClearModal">Очистить</button>
+                        <!-- PRE Clear Modal -->
+                        <div class="modal fade" id="preClearModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Потверждение намерений</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Закрыть"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Вы уверены, что хотите очистить историю сохранений?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                                            @click="clear" data-bs-toggle="modal"
+                                            data-bs-target="#clearModal">Да</button>
+                                        <button type="button" class="btn btn-warning"
+                                            data-bs-dismiss="modal">Нет</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Clear Modal -->
+                        <div class="modal fade" id="clearModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Очистка текста</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Закрыть"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ clearData }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Закрыть</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="switch_language animation">
-            <h1>Please, select your language</h1>
-            <button id="russian" class="btn">Русский</button>
-            <button id="english" class="btn">English</button>
-        </div>
     </div>
+    <script>
+        const setCookie = (name, value, days, attributes) => {
+            let attr = [];
+            let name_value = name + "=" + encodeURIComponent(value);
+            attr.push(name_value);
+
+            if (typeof days === "number") {
+                let expires = new Date(Date.now() + 864e5 * days).toUTCString();
+                attr.push("expires=" + expires);
+            }
+
+            if (typeof attributes === "object") {
+                for (let attribute_name in attributes) {
+                    if (attribute_name === "path" || attribute_name === "domain") {
+                        attr.push(attribute_name + "=" + attributes[attribute_name]);
+                    }
+                }
+            }
+
+            return (document.cookie = attr.join("; "));
+        };
+
+        const getCookie = (key) => {
+            let cookies = document.cookie.split("; ");
+            let cookies_list_obj = {};
+
+            for (let i = 0; i < cookies.length; i++) {
+                let name_value = cookies[i].split("=");
+                let name = name_value[0];
+                let value = decodeURIComponent(name_value[1]);
+                cookies_list_obj[name] = value;
+
+                if (key === name) {
+                    return value;
+                }
+            }
+
+            if (key !== undefined) {
+                return null;
+            } else {
+                return cookies_list_obj;
+            }
+        };
+
+        const removeCookie = (name, attributes) => {
+            attributes = attributes || {};
+            attributes.expires = new Date(0).toUTCString();
+            setCookie(name, "", undefined, attributes);
+        };
+
+        var app = new Vue({
+            el: "#app",
+            data: {
+                value: "",
+                saveData: "",
+                loadData: "",
+                clearData: "",
+            },
+            methods: {
+                save: function () {
+                    try {
+                        if (this.value.trim() === "") {
+                            this.saveData = "Текст не может быть пустым";
+                        } else {
+                            setCookie("value", this.value, 30);
+                            this.saveData = "Сохранение произошло успешно";
+                        }
+                    } catch (error) {
+                        this.saveData = `Произошла ошибка при сохранении: ${error.message}`;
+                    }
+                },
+                load: function () {
+                    try {
+                        if (getCookie("value") === null || getCookie("value") === "") {
+                            this.loadData = "До загрузки не было сохранений";
+                        } else {
+                            this.value = getCookie("value") || "";
+                            this.loadData = "Загрузка произошла успешно";
+                        }
+                    } catch (error) {
+                        this.loadData = `Произошла ошибка при загрузке: ${error.message}`;
+                    }
+                },
+
+                clear: function () {
+                    try {
+                        if (getCookie("value") === null || getCookie("value") === "") {
+                            this.clearData = "Нечего очищать: сохранений не было";
+                        } else {
+                            removeCookie("value");
+                            this.clearData = "Очистка произошла успешно";
+                        }
+                    } catch (error) {
+                        this.clearData = `Произошла ошибка при очистке: ${error.message}`;
+                    }
+                },
+            },
+        });
+
+    </script>
 </body>
 
 </html>
